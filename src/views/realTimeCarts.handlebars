@@ -1,0 +1,36 @@
+<h1>Formulario para Agregar Producto</h1>
+<form id="carritoForm">
+     <label for="carrito">id Carrito:</label>
+    <input id="carrito" name="carrito" required>
+
+    <label for="producto">id Producto:</label>
+    <input id="producto" name="producto" required>
+
+    <button type="submit">Agregar Producto</button>
+</form>
+
+<div style="display:flex; gap: 5rem;">
+  <div>
+
+    <h1 id="ola">carrito</h1>
+    <div id="container">
+      <div>
+    {{#each carts}}
+   <ul>
+          <li>Carrito ID: {{this._id}}</li>
+          <li>Productos:
+            <ul>
+              {{#each this.products}}
+              <li>Producto ID: {{this._id}}</li>
+              <li>Cantidad: {{this.quantity}}</li>
+              {{/each}}
+            </ul>
+          </li>
+        </ul>
+    {{/each}}
+    </div>
+    </div>
+  </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cart.js"></script>
