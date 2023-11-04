@@ -52,6 +52,13 @@
         <li>Categoria: {{this.category}}</li>
         <li>ID: {{this._id}}</li>
     </ul>
+
+    {{#if hasPrevPage}}
+    <a href="/home={{prevPage}}"><button>Anterior</button></a>
+    {{/if}}
+     {{#if hasNextPage}}
+    <a href="/home={{nextPage}}"><button>Siguiente</button></a>
+    {{/if}}
     {{/each}}
     </div>
     </div>

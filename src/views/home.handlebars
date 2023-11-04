@@ -1,4 +1,7 @@
  <div>
+
+     <h1>Productos</h1>
+
     {{#each products}}
     <ul>
         <li>TITULO: {{this.titulo}}</li>
@@ -11,4 +14,10 @@
         <li>ID: {{this._id}}</li>
     </ul>
     {{/each}}
+    {{#if hasNextPage}}
+    <a href="/?page={{nextPage}}">Siguiente</a>
+  {{/if}}
+  {{#if hasPrevPage}}
+    <a href="/?page={{prevPage}}">Atras</a>
+  {{/if}}
 </div>

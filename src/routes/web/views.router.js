@@ -8,6 +8,10 @@ import Products from '../../dao/dbManagers/products.manager.js';
 import Carts from '../../dao/dbManagers/cart.manager.js';
 import Messages from '../../dao/dbManagers/message.manager.js'
 
+import {
+    productsModel
+} from "../../dao/dbManagers/models/products.models.js";
+
 const router = Router();
 
 const prodManager = new Products();
@@ -15,7 +19,17 @@ const cartManager = new Carts();
 const chatManager = new Messages();
 
 router.get('/', async (req, res) => { 
-    res.render('home', { products: await prodManager.getAll() });
+    const {page = 1} = req.query;
+    const {docs, hasPrevPage, hasNextPage, nextPage, prevPage} = await productsModel.paginate({}, {limit: 5, page, lean: true});
+    console.log("hasNextPage:", nextPage);
+    console.log("hasPrevPage:", prevPage);
+    res.render('home', { 
+        products: docs,
+        hasPrevPage,
+        hasNextPage,
+        nextPage,
+        prevPage });
+    
 });
 
 router.get('/realTimeProducts', async (req, res) => { 
