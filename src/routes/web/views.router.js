@@ -19,6 +19,7 @@ const cartManager = new Carts();
 const chatManager = new Messages();
 
 router.get('/', async (req, res) => { 
+    // se agregan parametros de paginacion
     const {page = 1} = req.query;
     const {docs, hasPrevPage, hasNextPage, nextPage, prevPage} = await productsModel.paginate({}, {limit: 10, page, lean: true});
     console.log("hasNextPage:", nextPage);

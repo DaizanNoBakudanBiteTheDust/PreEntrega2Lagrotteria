@@ -40,7 +40,7 @@ export default class Carts {
     }
 
     deleteProductById = async (id, cart) => {
-        const product = await cartsModel.findOne({ _id: id}).lean();
+        const product = await cartsModel.deleteOne({ _id: id}).lean();
         
         if (!product) {
             throw new Error('Producto no encontrado');

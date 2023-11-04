@@ -167,5 +167,62 @@ router.post('/:cid/products/:pid', async (req, res) => {
 
 });
 
+router.delete('/:cid/products/:pid', async (req, res) => {
+        try {
+                // utilizo params de carrito y producto
+                const {
+                        cid
+                } = req.params;
+                const {
+                        pid
+                } = req.params; // Convierte pid a número
+
+                //carrito por ID
+
+                const cart = await manager.getProductById(cid);
+
+                if (!cart) {
+                        return res.status(404).json({
+                                error: 'Carrito no encontrado'
+                        });
+                }
+
+                // Verifica si el carro está vacío
+                if (!cart.products || cart.products.length === 0) {
+                        cart.products = []; // Inicializa cart.products como un arreglo vacío
+                }
+
+                // Buscar el producto en el carrito por el ID proporcionado
+                const carrito = cart.products;
+
+                const existingProduct = carrito.findIndex(product => product._id.equals(pid));
+
+                if (existingProduct !== -1) {
+                        // Si el producto ya existe, incrementa la cantidad
+                        carrito[existingProduct].quantity -= 1;
+
+                        if (carrito[existingProduct].quantity === 0) {
+                                cart.products.splice(existingProduct, 1);
+                            }
+                } 
+
+                // Actualiza el carrito con los cambios
+                await manager.update(cid, cart);
+
+                // status success
+                return res.send({
+                        status: 'success',
+                        message: 'product deleted',
+                        cart
+                })
+
+        } catch (error) {
+                res.status(500).send({
+                        status: 'error',
+                        message: error.message
+                });
+        }
+});
+
 
 export default router;

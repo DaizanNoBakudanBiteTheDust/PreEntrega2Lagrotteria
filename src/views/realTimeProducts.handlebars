@@ -53,13 +53,14 @@
         <li>ID: {{this._id}}</li>
     </ul>
 
+    {{/each}}
+
     {{#if hasPrevPage}}
-    <a href="/home={{prevPage}}"><button>Anterior</button></a>
+    <a href="/={{prevPage}}"><button>Anterior</button></a>
     {{/if}}
      {{#if hasNextPage}}
-    <a href="/home={{nextPage}}"><button>Siguiente</button></a>
+    <a href="/={{nextPage}}"><button>Siguiente</button></a>
     {{/if}}
-    {{/each}}
     </div>
     </div>
   </div>
