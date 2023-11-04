@@ -20,7 +20,7 @@ const chatManager = new Messages();
 
 router.get('/', async (req, res) => { 
     const {page = 1} = req.query;
-    const {docs, hasPrevPage, hasNextPage, nextPage, prevPage} = await productsModel.paginate({}, {limit: 5, page, lean: true});
+    const {docs, hasPrevPage, hasNextPage, nextPage, prevPage} = await productsModel.paginate({}, {limit: 10, page, lean: true});
     console.log("hasNextPage:", nextPage);
     console.log("hasPrevPage:", prevPage);
     res.render('home', { 
