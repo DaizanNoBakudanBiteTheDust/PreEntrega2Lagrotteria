@@ -198,13 +198,9 @@ router.delete('/:cid/products/:pid', async (req, res) => {
                 const existingProduct = carrito.findIndex(product => product._id.equals(pid));
 
                 if (existingProduct !== -1) {
-                        // Si el producto ya existe, incrementa la cantidad
-                        carrito[existingProduct].quantity -= 1;
-
-                        if (carrito[existingProduct].quantity === 0) {
-                                cart.products.splice(existingProduct, 1);
-                            }
-                } 
+                        // Elimina el producto del carrito
+                        cart.products.splice(existingProduct, 1);
+                    }
 
                 // Actualiza el carrito con los cambios
                 await manager.update(cid, cart);
