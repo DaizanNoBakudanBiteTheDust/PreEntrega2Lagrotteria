@@ -41,9 +41,15 @@ router.get('/:cid', async (req, res) => {
 
                 //carrito por ID
 
-                const cart = await manager.getProductById(cid);
+                const cart = await manager.getCartById(cid);
 
-                res.send({
+                if (!cart) {
+                        return res.status(404).json({
+                                error: 'Carrito no encontrado'
+                        });
+                }
+
+                res.json({
                         status: 'success',
                         payload: cart
                 })
@@ -127,19 +133,15 @@ router.post('/:cid/products/:pid', async (req, res) => {
                 // Buscar el producto en el carrito por el ID proporcionado
                 const carrito = cart.products;
 
-                const existingProduct = carrito.find(product => product._id.equals(pid));
+                const existingProduct = carrito.findIndex(product => product._id.equals(pid));
 
-
-                console.log(carrito);
-                console.log(existingProduct);
-
-                if (existingProduct) {
+                if (existingProduct !== -1) {
                         // Si el producto ya existe, incrementa la cantidad
-                        existingProduct.quantity += 1;
-                } else {
+                        cart.products[existingProduct].quantity += 1;
+                    } else {
                         // Crea un nuevo objeto de producto utilizando el ID proporcionado
                         const addedProduct = {
-                                id: pid,
+                                _id: pid,
                                 quantity: 1
                         };
                         // Agrega el producto al arreglo "products" del carrito
@@ -265,7 +267,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
                 } = req.params;
                 const {
                         pid
-                } = req.params; 
+                } = req.params;
 
                 //carrito por ID
 
@@ -279,7 +281,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
 
                 // Verifica si el carro está vacío
                 if (!cart.products || cart.products.length === 0) {
-                        cart.products = []; 
+                        cart.products = [];
                 }
 
                 // Buscar el producto en el carrito por el ID proporcionado
