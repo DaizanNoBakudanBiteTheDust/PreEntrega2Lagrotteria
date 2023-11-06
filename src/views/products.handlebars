@@ -1,11 +1,12 @@
 
-<div style="display:flex; gap: 5rem;">
+<div>
   <div>
 
-    <h1 id="ola">Productos agregados</h1>
+    <h1 id="ola">Productos Totales</h1>
     <div id="container">
-      <div>
+      <div class="row">
     {{#each products}}
+    <div class="col-lg-4">
     <ul>
         <li>TITULO: {{this.titulo}}</li>
         <li>DESCRIPCION: ${{this.descripcion}}</li>
@@ -17,18 +18,17 @@
         <li>ID: {{this._id}}</li>
          <li><button class="add-to-cart" data-product-id="{{this._id}}">Agregar al Carrito</button></li>
     </ul>
-
+</div>
     {{/each}}
-
+</div>
     {{#if hasPrevPage}}
-    <a href="/={{prevPage}}"><button>Anterior</button></a>
+    <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
     {{/if}}
      {{#if hasNextPage}}
-    <a href="/={{nextPage}}"><button>Siguiente</button></a>
+    <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
     {{/if}}
     </div>
     </div>
   </div>
-</div>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/products.js"></script>
