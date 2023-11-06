@@ -7,7 +7,7 @@ export default class Carts {
 
     getAll = async () => {
 
-        const carts = await cartsModel.find().populate('products').lean();
+        const carts = await cartsModel.find().lean();
         console.log(JSON.stringify(carts, null, '\t'));
         return carts;
     }
@@ -27,32 +27,29 @@ export default class Carts {
         return result;
     }
 
-    getProductById = async (id) => {
+    getCartById = async (id) => {
+        const cart = await cartsModel.findById(id);
 
-        const product = await cartsModel.findOne({ _id: id}).lean();
-        
-        if (!product) {
-            throw new Error('Producto no encontrado');
-
-        } 
-        return product;
-
-    }
-
-    getCartById = async (cid) => {
-        const cart = await cartsModel
-        .findById(cid)
-        .populate('products.product')
-        .lean();
-
-        console.log(cart)
-    
         if (!cart) {
             throw new Error('Carrito no encontrado');
         }
     
         return cart;
     }
+
+    getProductById = async (id) => {
+
+        const product = await cartsModel.findById(id);
+
+        if (!product) {
+            console.log('producto no encontrado');
+        }
+    
+        return product;
+
+    };
+    
+    
 
     deleteProductById = async (id, cart) => {
         const product = await cartsModel.deleteOne({ _id: id}).lean();

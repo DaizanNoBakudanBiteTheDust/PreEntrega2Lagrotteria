@@ -11,21 +11,13 @@ const cartsSchema = new mongoose.Schema({
         type: [{
 
             product: {
-
                 type: mongoose.Schema.Types.ObjectId,
-
                 ref: "products"
-
-                //Esto significa qu e le pasaremos el ID, es decir el ObjectId del curso, como se llama la referencia? En este caso es “products”
-
             },
 
             quantity: {
-
                 type: Number,
-
                 default: 0
-
             }
 
         }],
@@ -34,6 +26,10 @@ const cartsSchema = new mongoose.Schema({
 
     }
 
+});
+
+cartsSchema.pre(['find', 'findOne', 'findById'], function () {
+    this.populate('products.product');
 });
 
 
