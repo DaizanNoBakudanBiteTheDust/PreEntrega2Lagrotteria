@@ -150,55 +150,50 @@ router.delete('/:cid', async (req, res) => {
 
 router.delete('/:cid/products/:pid', async (req, res) => {
         try {
-                // utilizo params de carrito y producto
                 const {
-                        cid
+                    cid,
+                    pid
                 } = req.params;
-                const {
-                        pid
-                } = req.params; // Convierte pid a número
-
-                //carrito por ID
-
-                const cart = await manager.getCartById(cid);
-
+    
+        
+                // Obtener el carrito por su ID
+                const cart = await manager.getCartById({_id: cid});
+    
+                console.log(cart);
                 if (!cart) {
-                        return res.status(404).json({
-                                error: 'Carrito no encontrado'
-                        });
+                    return res.status(404).json({
+                        error: 'Carrito no encontrado'
+                    });
                 }
-
-                // Verifica si el carro está vacío
-                if (!cart.products || cart.products.length === 0) {
-                        cart.products = []; // Inicializa cart.products como un arreglo vacío
-                }
-
-                // Buscar el producto en el carrito por el ID proporcionado
-                const carrito = cart.products;
-
-                const existingProduct = carrito.findIndex(product => product._id.equals(pid));
-
+    
+                const products = cart.products;
+    
+                console.log(products);
+        
+                // Buscar el producto en el carrito por el ID del producto
+                const existingProduct = products.find(p => p.product.toString() === pid);
+        
                 if (existingProduct !== -1) {
                         // Elimina el producto del carrito
                         cart.products.splice(existingProduct, 1);
                 }
 
+        
                 // Actualiza el carrito con los cambios
                 await manager.update(cid, cart);
-
-                // status success
+        
+                // Respuesta exitosa
                 return res.send({
-                        status: 'success',
-                        message: 'product deleted',
-                        cart
-                })
-
-        } catch (error) {
-                res.status(500).send({
-                        status: 'error',
-                        message: error.message
+                    status: 'success',
+                    message: 'Producto borrado con exito',
+                    cart
                 });
-        }
+            } catch (error) {
+                res.status(500).send({
+                    status: 'error',
+                    message: error.message
+                });
+            }
 });
 
 
