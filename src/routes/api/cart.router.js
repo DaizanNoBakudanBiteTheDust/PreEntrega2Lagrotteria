@@ -210,7 +210,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
 
                 //carrito por ID
 
-                const cart = await manager.getProductById(cid);
+                const cart = await manager.getCartById({_id: cid});
 
                 if (!cart) {
                         return res.status(404).json({
@@ -224,9 +224,9 @@ router.put('/:cid/products/:pid', async (req, res) => {
                 }
 
                 // Buscar el producto en el carrito por el ID proporcionado
-                const carrito = cart.products;
+                const products = cart.products;
 
-                const existingProduct = carrito.find(product => product._id.equals(pid));
+                const existingProduct = products.find(p => p.product._id.toString() === pid);
 
                 if (existingProduct) {
                         // Si el producto ya existe, incrementa la cantidad
@@ -238,7 +238,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
                                 quantity: req.body.quantity
                         };
                         // Agrega el producto al arreglo "products" del carrito
-                        cart.products.push(addedProduct);
+                        cart.push(addedProduct);
 
                 }
 
