@@ -1,0 +1,34 @@
+
+<div style="display:flex; gap: 5rem;">
+  <div>
+
+    <h1 id="ola">Productos agregados</h1>
+    <div id="container">
+      <div>
+    {{#each products}}
+    <ul>
+        <li>TITULO: {{this.titulo}}</li>
+        <li>DESCRIPCION: ${{this.descripcion}}</li>
+        <li>code: ${{this.code}}</li>
+        <li>PRECIO: ${{this.precio}}</li>
+        <li><img src="{{this.thumbnail}}`"> </li>
+        <li>stock: ${{this.stock}}</li>
+        <li>Categoria: {{this.category}}</li>
+        <li>ID: {{this._id}}</li>
+         <li><button class="add-to-cart" data-product-id="{{this._id}}">Agregar al Carrito</button></li>
+    </ul>
+
+    {{/each}}
+
+    {{#if hasPrevPage}}
+    <a href="/={{prevPage}}"><button>Anterior</button></a>
+    {{/if}}
+     {{#if hasNextPage}}
+    <a href="/={{nextPage}}"><button>Siguiente</button></a>
+    {{/if}}
+    </div>
+    </div>
+  </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

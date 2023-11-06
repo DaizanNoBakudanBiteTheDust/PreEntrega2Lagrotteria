@@ -74,6 +74,10 @@ router.get('/realTimeProducts', async (req, res) => {
     res.render('realTimeProducts', { products: await prodManager.getAll() });
 });
 
+router.get('/products', async (req, res) => { 
+    res.render('products', { products: await prodManager.getAll() });
+});
+
 router.get('/realTimeCarts', async (req, res) => { 
     res.render('realTimeCarts', { carts: await cartManager.getAll() });
 });
