@@ -69,7 +69,6 @@ router.post('/:cid/products/:pid', async (req, res) => {
             // Obtener el carrito por su ID
             const cart = await manager.getCartById({_id: cid});
 
-            console.log(cart);
             if (!cart) {
                 return res.status(404).json({
                     error: 'Carrito no encontrado'
@@ -78,18 +77,18 @@ router.post('/:cid/products/:pid', async (req, res) => {
 
             const products = cart.products;
 
-            console.log(products);
     
             // Buscar el producto en el carrito por el ID del producto
-            const existingProduct = products.find(p => p.product.toString() === pid);
+            const existingProduct = products.find(p => p.product._id.toString() === pid);
     
+            console.log(existingProduct)
             if (existingProduct) {
                 // Si el producto ya existe en el carrito, incrementa la cantidad
                 existingProduct.quantity += 1;
             } else {
                 // Crea un nuevo objeto de producto utilizando el ID del producto
                 const addedProduct = {
-                    product: pid,
+                    product: {_id: pid},
                     quantity: 1
                 };
                 // Agrega el producto al arreglo "products" del carrito
