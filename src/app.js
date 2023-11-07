@@ -99,11 +99,6 @@ io.on('connection', socket => {
 
         });
 
-        socket.on('agregarCarro', async data => {
-                await cartManager.save(data); 
-                io.emit('showCarts', await cartManager.getAll());
-            });
-
         socket.on('message', async data => {
                 await chatManager.save(data);
                 io.emit('showChats', await chatManager.getAll());

@@ -130,6 +130,29 @@ router.get('/realTimeCarts', async (req, res) => {
     res.render('realTimeCarts', { carts: await cartManager.getAll() });
 });
 
+router.get('/cart', async (req, res) => { 
+    const cartById = '6548f637d8891916f4b7065b';
+    const cartData = await cartManager.getCartById({_id: cartById});
+
+    const transformedData = cartData.products.map(product => ({
+        product: product.product, // Ajusta según tu estructura real
+        quantity: product.quantity,
+        _id: product._id
+      }));
+
+    
+    // Comprueba si el carrito se encontró
+    if (!cartData) {
+        return res.status(404).send('Carrito no encontrado');
+    }
+
+    const products = transformedData;
+
+    console.log(products);
+
+    res.render('cartId', { cartProducts: products });
+});
+
 router.get('/chat', async (req, res) => { 
     res.render('chat', { chat: await chatManager.getAll() });
 });
