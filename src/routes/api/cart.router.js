@@ -196,6 +196,42 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 });
 
 
+router.put('/:cid', async (req, res) => {
+        try {
+            // utilizo params de carrito
+            const { cid } = req.params;
+    
+            // Datos actualizados del carrito desde el cuerpo de la solicitud
+            const updatedCartData = req.body;
+    
+            // Actualiza el carrito con los cambios proporcionados
+            const updatedCart = await manager.update(cid, updatedCartData);
+            console.log(updatedCart)
+            // Comprueba si el carrito se actualizó correctamente
+            if (updatedCart) {
+                // Status success y devuelve el carrito actualizado
+                return res.send({
+                    status: 'success',
+                    message: 'Carrito actualizado',
+                    cart: updatedCart
+                });
+            } else {
+                return res.status(500).send({
+                    status: 'error',
+                    message: 'Error al actualizar el carrito'
+                });
+
+                
+            }
+        } catch (error) {
+            res.status(500).send({
+                status: 'error',
+                message: error.message
+            });
+        }
+    });
+    
+
 // Controlo cantidad
 
 router.put('/:cid/products/:pid', async (req, res) => {
