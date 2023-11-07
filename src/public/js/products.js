@@ -33,7 +33,6 @@ async function addProduct(pid) {
        
        // Agrega el producto al arreglo "products" del carrito
        cartData.products.push(addedProduct);
-
        Toastify({
         text: `tu producto ha sido agregado al carrito`,
         gravity: "bottom",
@@ -49,7 +48,6 @@ async function addProduct(pid) {
              },
              body: JSON.stringify(cartData)
          });
-         console.log(updateResponse)
          if (updateResponse.status === 200) {
              console.log('Producto añadido al carrito', cartData);
          };
